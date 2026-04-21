@@ -5,6 +5,7 @@ async function afficherSeries() {
 
     series.forEach(serie => {
         const carte = document.createElement("div");
+        carte.classList.add("serie-card");
         carte.innerHTML = `
             <img src="${IMG_URL}${serie.poster_path}" alt="${serie.name}">
             <h3>${serie.name}</h3>
@@ -15,8 +16,8 @@ async function afficherSeries() {
 }
 
 afficherSeries();
+
 const moviesContainer = document.getElementById("movies-container");
-const seriesContainer = document.getElementById("series-container");
 
 async function displayMovies() {
 
@@ -43,30 +44,4 @@ async function displayMovies() {
     });
 }
 
-async function displaySeries() {
-
-    const series = await getPopularSeries();
-
-    series.forEach(show => {
-
-        const div = document.createElement("div");
-
-        const img = `https://image.tmdb.org/t/p/w200${show.poster_path}`;
-
-        div.classList.add("movie-card");
-
-        div.innerHTML = `
-            <img src="${img}" alt="${show.name}">
-            <h3>${show.name}</h3>
-        `;
-
-        div.addEventListener("click", () => {
-            window.location.href = `detail.html?id=${show.id}`;
-        });
-
-        seriesContainer.appendChild(div);
-    });
-}
-
 displayMovies();
-displaySeries();
