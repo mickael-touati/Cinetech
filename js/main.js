@@ -34,6 +34,7 @@ async function displayMovies() {
         div.innerHTML = `
             <img src="${img}" alt="${movie.title}">
             <h3>${movie.title}</h3>
+            <p>${movie.vote_average}</p>
         `;
 
         div.addEventListener("click", () => {
