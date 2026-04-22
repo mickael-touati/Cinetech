@@ -25,23 +25,22 @@ async function displayMovies() {
 
     movies.forEach(movie => {
 
-        const div = document.createElement("div");
+        const card = document.createElement("div");
+        card.classList.add("movie-card");
 
-        const img = `https://image.tmdb.org/t/p/w200${movie.poster_path}`;
+        const img = `${IMG_URL}${movie.poster_path}`;
 
-        div.classList.add("movie-card");
-
-        div.innerHTML = `
-            <img src="${img}" alt="${movie.title}">
+        card.innerHTML = `
+            <img src="${img}">
             <h3>${movie.title}</h3>
             <p>${movie.vote_average}</p>
         `;
 
-        div.addEventListener("click", () => {
-            window.location.href = `detail.html?id=${movie.id}`;
+        card.addEventListener("click", () => {
+            window.location.href = `pages/detail.html?id=${movie.id}`;
         });
 
-        moviesContainer.appendChild(div);
+        moviesContainer.appendChild(card);
     });
 }
 
