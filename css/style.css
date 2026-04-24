@@ -55,4 +55,30 @@ main {
 
 .search-item:hover {
     background: #eee;
+    border-radius: 8px;
+}
+
+/* Titre */
+.movie-card h3 {
+    font-size: 14px;
+}
+
+#series-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.serie-card {
+    width: 150px;
+    cursor: pointer;
+}
+
+.serie-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.serie-card h3 {
+    font-size: 14px;
 }
