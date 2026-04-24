@@ -54,3 +54,31 @@ main {
 .serie-card h3 {
     font-size: 14px;
 }
+
+.search-box {
+    position: relative;
+    margin-top: 10px;
+}
+
+#search-input {
+    padding: 8px;
+    width: 200px;
+}
+
+#search-results {
+    position: absolute;
+    background: white;
+    width: 200px;
+    border: 1px solid #ccc;
+}
+
+.search-item {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.search-item:hover {
+    background: #eee;
+}

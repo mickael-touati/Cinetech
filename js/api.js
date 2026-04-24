@@ -15,3 +15,33 @@ async function getMovieDetails(id) {
     const data = await response.json();
     return data;
 }
+
+async function getMovieCredits(id) {
+    const response = await fetch(`${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}&language=fr-FR`);
+    const data = await response.json();
+    return data;
+}
+
+async function searchMulti(query) {
+    const response = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=fr-FR&query=${query}`);
+    const data = await response.json();
+    return data.results;
+}
+
+async function getSerieDetails(id) {
+    const response = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=fr-FR`);
+    const data = await response.json();
+    return data;
+}
+
+async function getSerieCredits(id) {
+    const response = await fetch(`${BASE_URL}/tv/${id}/credits?api_key=${API_KEY}&language=fr-FR`);
+    const data = await response.json();
+    return data;
+}
+
+async function getSerieSimilaires(id) {
+    const response = await fetch(`${BASE_URL}/tv/${id}/similar?api_key=${API_KEY}&language=fr-FR`);
+    const data = await response.json();
+    return data.results;
+}
