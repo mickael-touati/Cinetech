@@ -19,6 +19,10 @@ async function afficherSeriesPage() {
             <h3>${serie.name}</h3>
             <p>${serie.vote_average}</p>
         `;
+
+        carte.addEventListener("click", () => {
+        window.location.href = `detail.html?type=serie&id=${serie.id}`;
+    });
         container.appendChild(carte);
     });
 

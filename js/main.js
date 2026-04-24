@@ -11,6 +11,11 @@ async function afficherSeries() {
             <h3>${serie.name}</h3>
             <p>${serie.vote_average}</p>
         `;
+
+        carte.addEventListener("click", () => {
+        window.location.href = `pages/detail.html?type=serie&id=${serie.id}`;
+    });
+
         container.appendChild(carte);
     });
 }
@@ -33,7 +38,6 @@ async function displayMovies() {
         card.innerHTML = `
             <img src="${img}">
             <h3>${movie.title}</h3>
-            <p>${movie.vote_average}</p>
         `;
 
         card.addEventListener("click", () => {
