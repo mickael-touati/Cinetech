@@ -1,3 +1,5 @@
+// PAGE FILMS
+
 const container = document.getElementById("movies-container");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
@@ -7,18 +9,13 @@ let currentPage = 1;
 let totalPages = 1;
 
 async function displayMovies(page) {
-
     const data = await getMoviesByPage(page);
-
-    const movies = data.results;
-    totalPages = data.total_pages;
 
     container.innerHTML = "";
 
-    movies.forEach(movie => {
-
+    data.results.forEach(movie => {
         const card = document.createElement("div");
-        card.classList.add("movie-card");
+        card.classList.add("card");
 
         const img = `${IMG_URL}${movie.poster_path}`;
 
@@ -34,21 +31,22 @@ async function displayMovies(page) {
         container.appendChild(card);
     });
 
+    totalPages = data.total_pages;
     pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 }
 
-prevBtn.addEventListener("click", () => {
+prevBtn.onclick = () => {
     if (currentPage > 1) {
         currentPage--;
         displayMovies(currentPage);
     }
-});
+};
 
-nextBtn.addEventListener("click", () => {
+nextBtn.onclick = () => {
     if (currentPage < totalPages) {
         currentPage++;
         displayMovies(currentPage);
     }
-});
+};
 
 displayMovies(currentPage);

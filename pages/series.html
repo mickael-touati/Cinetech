@@ -2,30 +2,38 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinetech - Séries</title>
+    <title>Séries</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Cinetech</h1>
-        <input type="text" id="search" placeholder="Rechercher...">
-    </header>
+<header>
+    <h1>Cinetech</h1>
 
-    <main>
-        <h2>Toutes les séries</h2>
-        <div id="series-container"></div>
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Rechercher...">
+        <div id="search-results"></div>
+    </div>
+</header>
 
-        <div id="pagination">
-            <button id="btn-precedent">Précédent</button>
-            <span id="page-actuelle"></span>
-            <button id="btn-suivant">Suivant</button>
-        </div>
-    </main>
+<main>
 
-    <script src="../config.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/series.js"></script>
+    <h2>Séries</h2>
+
+    <div id="series-container"></div>
+
+    <div id="pagination">
+        <button id="btn-precedent">Précédent</button>
+        <span id="page-actuelle"></span>
+        <button id="btn-suivant">Suivant</button>
+    </div>
+
+</main>
+
+<script src="../config.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/search.js"></script>
+<script src="../js/series.js"></script>
+
 </body>
 </html>
