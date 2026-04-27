@@ -18,11 +18,27 @@ async function afficherSeriesPage() {
             <img src="${IMG_URL}${serie.poster_path}" alt="${serie.name}">
             <h3>${serie.name}</h3>
             <p>${serie.vote_average}</p>
+            <button class="btn-favori">🤍</button>
         `;
 
+        carte.querySelector(".btn-favori").addEventListener("click", (e) => {
+            e.stopPropagation();
+            const favoris = JSON.parse(localStorage.getItem("favoris")) || [];
+            const index = favoris.findIndex(f => f.id === serie.id);
+            if (index === -1) {
+                favoris.push({ id: serie.id, titre: serie.name, affiche: serie.poster_path, note: serie.vote_average });
+                e.target.textContent = "❤️";
+            } else {
+                favoris.splice(index, 1);
+                e.target.textContent = "🤍";
+            }
+            localStorage.setItem("favoris", JSON.stringify(favoris));
+        });
+
         carte.addEventListener("click", () => {
-        window.location.href = `detail.html?type=serie&id=${serie.id}`;
-    });
+            window.location.href = `detail.html?type=serie&id=${serie.id}`;
+        });
+
         container.appendChild(carte);
     });
 

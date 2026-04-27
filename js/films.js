@@ -1,3 +1,5 @@
+// PAGE FILMS
+
 const container = document.getElementById("movies-container");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
@@ -7,25 +9,35 @@ let currentPage = 1;
 let totalPages = 1;
 
 async function displayMovies(page) {
-
     const data = await getMoviesByPage(page);
-
-    const movies = data.results;
-    totalPages = data.total_pages;
 
     container.innerHTML = "";
 
-    movies.forEach(movie => {
-
+    data.results.forEach(movie => {
         const card = document.createElement("div");
-        card.classList.add("movie-card");
+        card.classList.add("card");
 
         const img = `${IMG_URL}${movie.poster_path}`;
 
         card.innerHTML = `
             <img src="${img}">
             <h3>${movie.title}</h3>
+            <button class="btn-favori">🤍</button>
         `;
+
+        card.querySelector(".btn-favori").addEventListener("click", (e) => {
+            e.stopPropagation();
+            const favoris = JSON.parse(localStorage.getItem("favoris")) || [];
+            const index = favoris.findIndex(f => f.id === movie.id);
+            if (index === -1) {
+                favoris.push({ id: movie.id, titre: movie.title, affiche: movie.poster_path, note: movie.vote_average });
+                e.target.textContent = "❤️";
+            } else {
+                favoris.splice(index, 1);
+                e.target.textContent = "🤍";
+            }
+            localStorage.setItem("favoris", JSON.stringify(favoris));
+        });
 
         card.addEventListener("click", () => {
             window.location.href = `detail.html?id=${movie.id}`;
@@ -34,21 +46,22 @@ async function displayMovies(page) {
         container.appendChild(card);
     });
 
+    totalPages = data.total_pages;
     pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
 }
 
-prevBtn.addEventListener("click", () => {
+prevBtn.onclick = () => {
     if (currentPage > 1) {
         currentPage--;
         displayMovies(currentPage);
     }
-});
+};
 
-nextBtn.addEventListener("click", () => {
+nextBtn.onclick = () => {
     if (currentPage < totalPages) {
         currentPage++;
         displayMovies(currentPage);
     }
-});
+};
 
 displayMovies(currentPage);

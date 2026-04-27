@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinetech</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,22 +10,28 @@
 <header>
     <h1>Cinetech</h1>
 
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="pages/films.html">Films</a>
+        <a href="pages/series.html">Séries</a>
+        <a href="pages/favoris.html">Favoris</a>
+    </nav>
+
     <div class="search-box">
-        <input type="text" id="search-input" placeholder="Rechercher un film...">
+        <input type="text" id="search-input" placeholder="Rechercher...">
         <div id="search-results"></div>
     </div>
 </header>
 
-    <main>
-        <h2>Films populaires</h2>
-        <div id="movies-container"></div>
+<main>
 
-        <h2>Series populaires</h2>
-        <div id="series-container"></div>
+    <h2>Films populaires</h2>
+    <div id="movies-container"></div>
 
-    </main>
+    <h2>Séries populaires</h2>
+    <div id="series-container"></div>
 
-
+</main>
 
 <script src="config.js"></script>
 <script src="js/api.js"></script>
@@ -35,4 +40,3 @@
 
 </body>
 </html>
-

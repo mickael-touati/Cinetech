@@ -1,141 +1,212 @@
+// PARAMS
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
+const type = params.get("type");
 
+// DOM
 const detailContainer = document.getElementById("detail-container");
 const similarContainer = document.getElementById("similar-container");
 const reviewsContainer = document.getElementById("reviews-container");
+const similarTitle = document.getElementById("similar-title");
 
-async function displayDetail() {
+const commentInput = document.getElementById("comment-input");
+const addBtn = document.getElementById("add-comment");
+const userCommentsContainer = document.getElementById("user-comments");
+
+
+
+//  FILM 
+
+async function displayMovie() {
 
     const movie = await getMovieDetails(id);
     const credits = await getMovieCredits(id);
     const similar = await getSimilarMovies(id);
     const reviews = await getMovieReviews(id);
 
-    const img = `${IMG_URL}${movie.poster_path}`;
-
     const director = credits.crew.find(p => p.job === "Director");
-
-    const actors = credits.cast
-        .slice(0, 5)
-        .map(a => a.name)
-        .join(", ");
 
     detailContainer.innerHTML = `
         <h2>${movie.title}</h2>
-        <img src="${img}">
-        <p>${movie.release_date}</p>
+        <img src="${IMG_URL}${movie.poster_path}">
         <p>${movie.overview}</p>
         <p>Réalisateur : ${director ? director.name : "Inconnu"}</p>
-        <p>Acteurs : ${actors}</p>
     `;
 
-    similarContainer.innerHTML = "<h2>Films similaires</h2>";
+    displaySimilar(similar, false);
+    displayReviews(reviews);
+}
 
-    similar.slice(0, 6).forEach(movie => {
+
+
+//  SERIE 
+
+async function displaySerie() {
+
+    const serie = await getSerieDetails(id);
+    const similar = await getSerieSimilaires(id);
+
+    detailContainer.innerHTML = `
+        <h2>${serie.name}</h2>
+        <img src="${IMG_URL}${serie.poster_path}">
+        <p>${serie.overview}</p>
+    `;
+
+    displaySimilar(similar, true);
+}
+
+
+
+//  SIMILAIRES 
+
+function displaySimilar(list, isSerie) {
+
+    similarContainer.innerHTML = "";
+
+    list.slice(0, 6).forEach(item => {
+
+        if (!item.poster_path) return;
 
         const div = document.createElement("div");
-        div.classList.add("movie-card");
-
-        const img = `${IMG_URL}${movie.poster_path}`;
+        div.classList.add("card");
 
         div.innerHTML = `
-            <img src="${img}">
-            <h3>${movie.title}</h3>
+            <img src="${IMG_URL}${item.poster_path}">
+            <h3>${item.title || item.name}</h3>
         `;
 
-        div.addEventListener("click", () => {
-            window.location.href = `detail.html?id=${movie.id}`;
-        });
+        div.onclick = () => {
+            if (isSerie) {
+                window.location.href = `detail.html?type=serie&id=${item.id}`;
+            } else {
+                window.location.href = `detail.html?id=${item.id}`;
+            }
+        };
 
         similarContainer.appendChild(div);
     });
+}
 
-    reviewsContainer.innerHTML = "<h2>Avis</h2>";
+
+
+//  REVIEWS API
+
+function displayReviews(reviews) {
+
+    reviewsContainer.innerHTML = "";
 
     if (reviews.length === 0) {
         reviewsContainer.innerHTML = "<p>Aucun avis pour le moment</p>";
         return;
     }
 
-    reviews.forEach(review => {
+    reviews.forEach(r => {
 
         const div = document.createElement("div");
 
         div.innerHTML = `
-            <h4>${review.author}</h4>
-            <p>${review.created_at}</p>
-            <p>${review.content}</p>
+            <h4>${r.author}</h4>
+            <p>${r.content}</p>
         `;
 
         reviewsContainer.appendChild(div);
     });
 }
 
-async function displaySerieDetail() {
-    const serie = await getSerieDetails(id);
-    const credits = await getSerieCredits(id);
-    const similaires = await getSerieSimilaires(id);
 
-    const img = `${IMG_URL}${serie.poster_path}`;
+//  LOCAL STORAGE 
 
-    const actors = credits.cast
-        .slice(0, 5)
-        .map(a => a.name)
-        .join(", ");
+// récupérer commentaires
+function getComments() {
+    const data = localStorage.getItem(id);
+    return data ? JSON.parse(data) : [];
+}
 
-    const createur = serie.created_by.length > 0 ? serie.created_by[0].name : "Inconnu";
+// sauvegarder commentaires
+function saveComments(comments) {
+    localStorage.setItem(id, JSON.stringify(comments));
+}
 
-    detailContainer.innerHTML = `
-        <h2>${serie.name}</h2>
-        <img src="${img}">
-        <p>${serie.first_air_date}</p>
-        <p>${serie.overview}</p>
-        <p><strong>Créateur :</strong> ${createur}</p>
-        <p><strong>Acteurs :</strong> ${actors}</p>
-        <p><strong>Saisons :</strong> ${serie.number_of_seasons}</p>
-    `;
+// afficher commentaires
+function displayUserComments() {
 
-    const similairesContainer = document.createElement("div");
+    const comments = getComments();
+    userCommentsContainer.innerHTML = "";
 
-    similairesContainer.innerHTML = "<h2>Séries similaires</h2>";
+    comments.forEach((comment, index) => {
 
-    similaires.slice(0, 6).forEach(s => {
-        const carte = document.createElement("div");
-        carte.classList.add("serie-card");
-        carte.innerHTML = `
-            <img src="${IMG_URL}${s.poster_path}" alt="${s.name}">
-            <h3>${s.name}</h3>
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+            <p>${comment.text}</p>
+            <button>Répondre</button>
+            <div class="replies"></div>
         `;
-        carte.addEventListener("click", () => {
-            window.location.href = `detail.html?type=serie&id=${s.id}`;
-        });
-        similairesContainer.appendChild(carte);
-    });
-    document.querySelector("main").appendChild(similairesContainer);
 
-    const reviews = await getSerieReviews(id);
+        const repliesContainer = div.querySelector(".replies");
 
-    reviewsContainer.innerHTML = "<h2>Avis</h2>";
+        // afficher réponses
+        if (comment.replies) {
+            comment.replies.forEach(rep => {
+                const p = document.createElement("p");
+                p.textContent = "- " + rep;
+                repliesContainer.appendChild(p);
+            });
+        }
 
-    if (reviews.length === 0) {
-        reviewsContainer.innerHTML += "<p>Aucun avis pour le moment</p>";
-    } else {
-        reviews.forEach(review => {
-            const div = document.createElement("div");
-            div.innerHTML = `
-                <h4>${review.author}</h4>
-                <p>${review.created_at}</p>
-                <p>${review.content}</p>
-            `;
-        reviewsContainer.appendChild(div);
+        // bouton répondre
+        const btn = div.querySelector("button");
+
+        btn.onclick = () => {
+
+            const reply = prompt("Votre réponse :");
+
+            if (!reply) return;
+
+            comments[index].replies = comments[index].replies || [];
+            comments[index].replies.push(reply);
+
+            saveComments(comments);
+            displayUserComments();
+        };
+
+        userCommentsContainer.appendChild(div);
     });
 }
-}
 
-const type = params.get("type");
+
+
+// ajouter commentaire
+addBtn.onclick = () => {
+
+    const text = commentInput.value;
+
+    if (text === "") return;
+
+    const comments = getComments();
+
+    comments.push({
+        text: text,
+        replies: []
+    });
+
+    saveComments(comments);
+
+    commentInput.value = "";
+
+    displayUserComments();
+};
+
+
+
+//  INIT
+
 if (type === "serie") {
-    displaySerieDetail();
+    similarTitle.textContent = "Séries similaires";
+    displaySerie();
 } else {
-    displayDetail();
+    similarTitle.textContent = "Films similaires";
+    displayMovie();
 }
+
+displayUserComments();

@@ -1,84 +1,228 @@
+
+/* ================= BASE ================= */
+
 body {
-    font-family: Arial;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+/* ================= HEADER ================= */
+
+header {
+    background: #000;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+/* logo */
+
+h1 {
+    color: red;
     margin: 0;
 }
 
-header {
-    background: black;
-    color: white;
-    padding: 15px;
-    text-align: center;
+/* navigation */
+
+nav {
+    display: flex;
+    gap: 20px;
 }
+
+nav a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+/* ================= MAIN ================= */
 
 main {
-    padding: 20px;
+    padding: 20px 25px;
 }
 
-#movies-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
-.movie-card {
-    width: 150px;
-    cursor: pointer;
-}
+/* ================= LISTES ================= */
 
-.movie-card img {
-    width: 100%;
-    border-radius: 8px;
-}
-
-/* Titre */
-.movie-card h3 {
-    font-size: 14px;
-}
-
-#series-container {
+#movies-container,
+#series-container,
+#similar-container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
 
+/* ================= CARTES ================= */
+
+.card,
+.movie-card,
 .serie-card {
     width: 150px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
+.card:hover,
+.movie-card:hover,
+.serie-card:hover {
+    transform: scale(1.05);
+}
+
+/* image */
+
+.card img,
+.movie-card img,
 .serie-card img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
+/* titre */
+
+.card h3,
+.movie-card h3,
 .serie-card h3 {
     font-size: 14px;
+    margin: 5px 0;
 }
+
+/* note */
+
+.card p,
+.serie-card p {
+    font-size: 12px;
+    color: #aaa;
+}
+
+/* ================= SEARCH ================= */
 
 .search-box {
+    margin-left: auto;
     position: relative;
-    margin-top: 10px;
 }
 
+/* input */
+
 #search-input {
-    padding: 8px;
+    padding: 7px 10px;
     width: 200px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: #222;
+    color: white;
 }
+
+/* résultats */
 
 #search-results {
     position: absolute;
-    background: white;
+    top: 35px;
     width: 200px;
-    border: 1px solid #ccc;
+    background: #1a1a1a;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 10;
 }
+
+/* item */
 
 .search-item {
     display: flex;
-    gap: 10px;
-    padding: 5px;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
     cursor: pointer;
 }
 
+.search-item img {
+    border-radius: 4px;
+}
+
 .search-item:hover {
-    background: #eee;
+    background: #333;
+}
+
+/* ================= DETAIL ================= */
+
+#detail-container img {
+    width: 200px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+/* ================= REVIEWS ================= */
+
+#reviews-container div {
+    background: #1a1a1a;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* ================= COMMENTAIRES ================= */
+
+#user-comments div {
+    background: #1a1a1a;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* bouton réponse */
+
+#user-comments button {
+    margin-top: 5px;
+    padding: 5px 8px;
+    background: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* textarea */
+
+textarea {
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    background: #222;
+    color: white;
+}
+
+/* boutons */
+
+button {
+    margin-top: 10px;
+    padding: 7px 10px;
+    background: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* ================= PAGINATION ================= */
+
+#pagination {
+    margin-top: 20px;
+}
+
+#pagination button {
+    margin-right: 10px;
 }
