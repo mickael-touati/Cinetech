@@ -46,6 +46,12 @@ async function getSerieSimilaires(id) {
     return data.results;
 }
 
+async function getSerieReviews(id) {
+    const response = await fetch(`${BASE_URL}/tv/${id}/reviews?api_key=${API_KEY}&language=fr-FR`);
+    const data = await response.json();
+    return data.results;
+}
+
 
 async function getMoviesByPage(page) {
     const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=fr-FR&page=${page}`);

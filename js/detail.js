@@ -30,7 +30,7 @@ async function displayDetail() {
         <p>Acteurs : ${actors}</p>
     `;
 
-    similarContainer.innerHTML = "";
+    similarContainer.innerHTML = "<h2>Films similaires</h2>";
 
     similar.slice(0, 6).forEach(movie => {
 
@@ -51,7 +51,7 @@ async function displayDetail() {
         similarContainer.appendChild(div);
     });
 
-    reviewsContainer.innerHTML = "";
+    reviewsContainer.innerHTML = "<h2>Avis</h2>";
 
     if (reviews.length === 0) {
         reviewsContainer.innerHTML = "<p>Aucun avis pour le moment</p>";
@@ -71,8 +71,6 @@ async function displayDetail() {
         reviewsContainer.appendChild(div);
     });
 }
-
-displayDetail();
 
 async function displaySerieDetail() {
     const serie = await getSerieDetails(id);
@@ -99,7 +97,9 @@ async function displaySerieDetail() {
     `;
 
     const similairesContainer = document.createElement("div");
+
     similairesContainer.innerHTML = "<h2>Séries similaires</h2>";
+
     similaires.slice(0, 6).forEach(s => {
         const carte = document.createElement("div");
         carte.classList.add("serie-card");
@@ -113,6 +113,24 @@ async function displaySerieDetail() {
         similairesContainer.appendChild(carte);
     });
     document.querySelector("main").appendChild(similairesContainer);
+
+    const reviews = await getSerieReviews(id);
+
+    reviewsContainer.innerHTML = "<h2>Avis</h2>";
+
+    if (reviews.length === 0) {
+        reviewsContainer.innerHTML += "<p>Aucun avis pour le moment</p>";
+    } else {
+        reviews.forEach(review => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <h4>${review.author}</h4>
+                <p>${review.created_at}</p>
+                <p>${review.content}</p>
+            `;
+        reviewsContainer.appendChild(div);
+    });
+}
 }
 
 const type = params.get("type");
