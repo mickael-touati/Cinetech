@@ -15,7 +15,7 @@ const userCommentsContainer = document.getElementById("user-comments");
 
 
 
-// ==================== FILM ====================
+//  FILM 
 
 async function displayMovie() {
 
@@ -39,7 +39,7 @@ async function displayMovie() {
 
 
 
-// ==================== SERIE ====================
+//  SERIE 
 
 async function displaySerie() {
 
@@ -57,7 +57,7 @@ async function displaySerie() {
 
 
 
-// ==================== SIMILAIRES ====================
+//  SIMILAIRES 
 
 function displaySimilar(list, isSerie) {
 
@@ -67,7 +67,7 @@ function displaySimilar(list, isSerie) {
 
         if (!item.poster_path) return;
 
-        const div = document.createElement("div");
+        const div = document.createE lement("div");
         div.classList.add("card");
 
         div.innerHTML = `
@@ -89,7 +89,7 @@ function displaySimilar(list, isSerie) {
 
 
 
-// ==================== REVIEWS API ====================
+//  REVIEWS API 
 
 function displayReviews(reviews) {
 
@@ -115,7 +115,7 @@ function displayReviews(reviews) {
 
 
 
-// ==================== LOCAL STORAGE ====================
+//  LOCAL STORAGE 
 
 // récupérer commentaires
 function getComments() {
@@ -200,7 +200,7 @@ addBtn.onclick = () => {
 
 
 
-// ==================== INIT ====================
+// INIT 
 
 if (type === "serie") {
     similarTitle.textContent = "Séries similaires";
